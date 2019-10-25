@@ -162,6 +162,8 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
 		this.registry = registry;
 
+		//是否使用默认的过滤器，其实就是指@Component注解、(@Named、@ManagedBean)；以及@Component注解的扩展注解@Controller、@Repository、@Service
+		//Dubbo其实就是改写了这块，将过滤器中添加了属于自己的特色注解，然后再将这些类添加到Spring容器中
 		if (useDefaultFilters) {
 			registerDefaultFilters();
 		}
@@ -273,6 +275,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 		Assert.notEmpty(basePackages, "At least one base package must be specified");
 		Set<BeanDefinitionHolder> beanDefinitions = new LinkedHashSet<>();
 		for (String basePackage : basePackages) {
+			//找到暗示的@Component注解的组件
 			Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
 			for (BeanDefinition candidate : candidates) {
 				ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(candidate);

@@ -3066,7 +3066,7 @@ image::images/aop-proxy-plain-pojo-call.png[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-	public class Main {
+	public class com.vilderlee.spring.condition.Main {
 
 		public static void main(String[] args) {
 			Pojo pojo = new SimplePojo();
@@ -3093,7 +3093,7 @@ image::images/aop-proxy-call.png[]
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-	public class Main {
+	public class com.vilderlee.spring.condition.Main {
 
 		public static void main(String[] args) {
 			ProxyFactory factory = new ProxyFactory(new SimplePojo());
@@ -3121,7 +3121,7 @@ fun main() {
 ----
 
 The key thing to understand here is that the client code inside the `main(..)` method
-of the `Main` class has a reference to the proxy. This means that method calls on that
+of the `com.vilderlee.spring.condition.Main` class has a reference to the proxy. This means that method calls on that
 object reference are calls on the proxy. As a result, the proxy can delegate to all of
 the interceptors (advice) that are relevant to that particular method call. However,
 once the call has finally reached the target object (the `SimplePojo`, reference in
@@ -3176,7 +3176,7 @@ following example shows:
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-	public class Main {
+	public class com.vilderlee.spring.condition.Main {
 
 		public static void main(String[] args) {
 			ProxyFactory factory = new ProxyFactory(new SimplePojo());
@@ -3808,10 +3808,10 @@ driver class with a `main(..)` method to demonstrate the LTW in action:
 
 	import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-	public final class Main {
+	public final class com.vilderlee.spring.condition.Main {
 
 		public static void main(String[] args) {
-			ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml", Main.class);
+			ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml", com.vilderlee.spring.condition.Main.class);
 
 			EntitlementCalculationService entitlementCalculationService =
 					(EntitlementCalculationService) ctx.getBean("entitlementCalculationService");
@@ -3841,11 +3841,11 @@ driver class with a `main(..)` method to demonstrate the LTW in action:
 We have one last thing to do. The introduction to this section did say that one could
 switch on LTW selectively on a per-`ClassLoader` basis with Spring, and this is true.
 However, for this example, we use a Java agent (supplied with Spring) to switch on LTW.
-We use the following command to run the `Main` class shown earlier:
+We use the following command to run the `com.vilderlee.spring.condition.Main` class shown earlier:
 
 [literal,subs="verbatim,quotes"]
 ----
-java -javaagent:C:/projects/foo/lib/global/spring-instrument.jar foo.Main
+java -javaagent:C:/projects/foo/lib/global/spring-instrument.jar foo.com.vilderlee.spring.condition.Main
 ----
 
 The `-javaagent` is a flag for specifying and enabling
@@ -3855,7 +3855,7 @@ agent, the `InstrumentationSavingAgent`, which is packaged in the
 `spring-instrument.jar` that was supplied as the value of the `-javaagent` argument in
 the preceding example.
 
-The output from the execution of the `Main` program looks something like the next example.
+The output from the execution of the `com.vilderlee.spring.condition.Main` program looks something like the next example.
 (I have introduced a `Thread.sleep(..)` statement into the `calculateEntitlement()`
 implementation so that the profiler actually captures something other than 0
 milliseconds (the `01234` milliseconds is not an overhead introduced by the AOP).
@@ -3873,7 +3873,7 @@ ms     %     Task name
 ----
 
 Since this LTW is effected by using full-blown AspectJ, we are not limited only to advising
-Spring beans. The following slight variation on the `Main` program yields the same
+Spring beans. The following slight variation on the `com.vilderlee.spring.condition.Main` program yields the same
 result:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
@@ -3883,10 +3883,10 @@ result:
 
 	import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-	public final class Main {
+	public final class com.vilderlee.spring.condition.Main {
 
 		public static void main(String[] args) {
-			new ClassPathXmlApplicationContext("beans.xml", Main.class);
+			new ClassPathXmlApplicationContext("beans.xml", com.vilderlee.spring.condition.Main.class);
 
 			EntitlementCalculationService entitlementCalculationService =
 					new StubEntitlementCalculationService();

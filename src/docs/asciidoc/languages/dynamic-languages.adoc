@@ -479,9 +479,9 @@ Finally, the following small application exercises the preceding configuration:
 	import org.springframework.context.ApplicationContext;
 	import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-	public class Main {
+	public class com.vilderlee.spring.condition.Main {
 
-		public static void Main(String[] args) {
+		public static void com.vilderlee.spring.condition.Main(String[] args) {
 			ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
 			Calculator calc = (Calculator) ctx.getBean("calculator");
 			System.out.println(calc.add(2, 8));
