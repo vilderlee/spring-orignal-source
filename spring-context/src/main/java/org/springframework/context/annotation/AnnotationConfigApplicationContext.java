@@ -86,8 +86,9 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * {@link Configuration @Configuration} classes
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... componentClasses) {
-		//初始化AnnotatedBeanDefinitionReader(Bean定义解析器)
-		//ClassPathBeanDefinitionScanner(Bean路径扫描器)
+		//初始化AnnotatedBeanDefinitionReader(Bean定义读取器-->注册某些类为Bean组件)
+		//ClassPathBeanDefinitionScanner(Bean路径扫描器-->可以扫描特点包路径下的Bean组件)
+		//这里是提供了两种方式去注册bean,一种是通过直接注册某个类,另一种是指定某个路径下面
 		this();
 		register(componentClasses);
 		refresh();

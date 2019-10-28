@@ -278,6 +278,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 			//找到暗示的@Component注解的组件
 			Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
 			for (BeanDefinition candidate : candidates) {
+				//获取当前Bean的作用域
 				ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(candidate);
 				candidate.setScope(scopeMetadata.getScopeName());
 				String beanName = this.beanNameGenerator.generateBeanName(candidate, this.registry);

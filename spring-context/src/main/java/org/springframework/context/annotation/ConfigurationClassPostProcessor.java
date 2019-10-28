@@ -260,7 +260,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 			// Simply call processConfigurationClasses lazily at this point then.
 			processConfigBeanDefinitions((BeanDefinitionRegistry) beanFactory);
 		}
-
+		//处理@Configuration的proxyBeanMethods方法使用，增强了@Bean的功能
 		enhanceConfigurationClasses(beanFactory);
 		beanFactory.addBeanPostProcessor(new ImportAwareBeanPostProcessor(beanFactory));
 	}
@@ -327,6 +327,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		Set<ConfigurationClass> alreadyParsed = new HashSet<>(configCandidates.size());
 		//不知道为什这么骚包的用了一个do while的形式。。。
 		do {
+			//解析每一个配置类
 			parser.parse(candidates);
 			parser.validate();
 

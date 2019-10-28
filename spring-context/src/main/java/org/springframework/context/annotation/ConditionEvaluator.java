@@ -105,6 +105,7 @@ class ConditionEvaluator {
 			if (condition instanceof ConfigurationCondition) {
 				requiredPhase = ((ConfigurationCondition) condition).getConfigurationPhase();
 			}
+			//condition.matches 就是我们自定义实现是否加载某个Bean组件的判断过程
 			if ((requiredPhase == null || requiredPhase == phase) && !condition.matches(this.context, metadata)) {
 				return true;
 			}
@@ -115,6 +116,7 @@ class ConditionEvaluator {
 
 	@SuppressWarnings("unchecked")
 	private List<String[]> getConditionClasses(AnnotatedTypeMetadata metadata) {
+		//解析@Conditional扩展的子注解（这里的测试案例是@ConditionOnSystemName）的@Conditional的value属性值（扩展过滤的实现类）
 		MultiValueMap<String, Object> attributes = metadata.getAllAnnotationAttributes(Conditional.class.getName(), true);
 		Object values = (attributes != null ? attributes.get("value") : null);
 		return (List<String[]>) (values != null ? values : Collections.emptyList());

@@ -94,6 +94,8 @@ final class PostProcessorRegistrationDelegate {
 			}
 			sortPostProcessors(currentRegistryProcessors, beanFactory);
 			registryProcessors.addAll(currentRegistryProcessors);
+			//解析BeanFactoryPostProcessor的子接口BeanDefinitionRegistryPostProcessor的postProcessBeanDefinitionRegistry()
+			//解析@Confiuration的ConfigurationClassPostProcessor在这里被调用，
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
 			currentRegistryProcessors.clear();
 
@@ -129,6 +131,7 @@ final class PostProcessorRegistrationDelegate {
 			}
 
 			// Now, invoke the postProcessBeanFactory callback of all processors handled so far.
+			//执行BeanFactoryPostProcessor的PostProcessBeanFactory()方法
 			invokeBeanFactoryPostProcessors(registryProcessors, beanFactory);
 			invokeBeanFactoryPostProcessors(regularPostProcessors, beanFactory);
 		}

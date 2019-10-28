@@ -143,8 +143,9 @@ class ConfigurationClassBeanDefinitionReader {
 		for (BeanMethod beanMethod : configClass.getBeanMethods()) {
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
-
+		//解析@ImportResources注解并注册Bean  下面的流程跟xml形式的一致
 		loadBeanDefinitionsFromImportedResources(configClass.getImportedResources());
+		//把@Import注解的value的值（实现类ImportBeanDefinitionRegister接口方法调用）
 		loadBeanDefinitionsFromRegistrars(configClass.getImportBeanDefinitionRegistrars());
 	}
 
