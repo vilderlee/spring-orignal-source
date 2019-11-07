@@ -1,9 +1,8 @@
-package com.vilderlee.spring.importd;
+package com.vilderlee.spring.beanpostprocessor;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.AbstractApplicationContext;
-
-import java.util.stream.Stream;
 
 /**
  * 类说明:
@@ -12,16 +11,14 @@ import java.util.stream.Stream;
  * Modify Information:
  * Author        Date          Description
  * ============ ============= ============================
- * VilderLee    2019/10/28      Create this file
+ * VilderLee    2019/11/7      Create this file
  * </pre>
  */
-@ColorImport(color = "blue")
-public class ImportMain {
-
+@EnableAspectJAutoProxy
+public class BeanPostProcessorMain {
 	public static void main(String[] args) {
-		AbstractApplicationContext context = new AnnotationConfigApplicationContext(ImportMain.class);
+		AbstractApplicationContext context = new AnnotationConfigApplicationContext(BeanPostProcessorMain.class);
 
-		Stream.of(context.getBeanDefinitionNames()).forEach(System.out::println);
+
 	}
-
 }

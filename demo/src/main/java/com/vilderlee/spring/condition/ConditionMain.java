@@ -17,7 +17,7 @@ import org.springframework.context.support.AbstractApplicationContext;
  * </pre>
  */
 @ComponentScan("com.vilderlee.spring.condition")
-public class Main {
+public class ConditionMain {
 
 	@Bean
 	public String beanTest(){
@@ -25,14 +25,9 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		AbstractApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
+		AbstractApplicationContext context = new AnnotationConfigApplicationContext(ConditionMain.class);
 		Test test = context.getBean(Test.class);
 		test.test();
 		context.start();
-
-		int x = 3;
-		do{
-			x--;
-		}while (x >0);
 	}
 }
