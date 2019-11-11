@@ -37,6 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
+import kotlin.Deprecated;
 import org.apache.commons.logging.Log;
 
 import org.springframework.beans.BeanUtils;
@@ -574,7 +575,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					throw new BeanCreationException(mbd.getResourceDescription(), beanName,
 							"Post-processing of merged bean definition failed", ex);
 				}
-				mbd.postProcessed = true;
+				mbd.postProcessed = true; //意味着MergedBeanPostProcessor已经处理完成
 			}
 		}
 
@@ -593,6 +594,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Initialize the bean instance.
 		Object exposedObject = bean;
 		try {
+			//填充Bean
 			populateBean(beanName, mbd, instanceWrapper);
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
 		}
@@ -1403,9 +1405,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (!continueWithPropertyPopulation) {
 			return;
 		}
-
+		//由此可见，我们可以通过BeanDefinition.getPropertyValues().addPropertyValues()方法去添加属性值
 		PropertyValues pvs = (mbd.hasPropertyValues() ? mbd.getPropertyValues() : null);
-
+		//判断自动注入的模式
 		int resolvedAutowireMode = mbd.getResolvedAutowireMode();
 		if (resolvedAutowireMode == AUTOWIRE_BY_NAME || resolvedAutowireMode == AUTOWIRE_BY_TYPE) {
 			MutablePropertyValues newPvs = new MutablePropertyValues(pvs);

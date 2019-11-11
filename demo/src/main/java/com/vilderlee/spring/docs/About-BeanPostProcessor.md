@@ -36,5 +36,12 @@
         
 ##### MergedBeanDefinitionPostProcessor 接口
     见文知意，合并BeanDefinition的后置处理器
+    
+    //合并BeanDefinition
+    //经典实现:
+    //1.CommonAnnotationBeanPostProcessor（父类InitDestroyAnnotationBeanPostProcessor）中将@PostConstruct、@PreDestroy、@Resource三个注解识别，并加载到了BeanDefinition中
+    //2.AutowiredAnnotationBeanPostProcessor的postProcessMergedBeanDefinition方法做了同样的事情，将@Autowired注解识别并加载到了BeanDefinition中
+    //3.ApplicationListenerDetector中将其放入缓存内，为下一步做准备。
+    postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName)
 
     

@@ -147,6 +147,8 @@ public class InitDestroyAnnotationBeanPostProcessor
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
 		LifecycleMetadata metadata = findLifecycleMetadata(beanType);
+		//将Init方法配置到BeanDefinition的externallyManagedInitMethods中
+		//将Destroy方法配置到BeanDefinition的externallyManagedDestroyMethods中
 		metadata.checkConfigMembers(beanDefinition);
 	}
 
@@ -208,6 +210,7 @@ public class InitDestroyAnnotationBeanPostProcessor
 				metadata = this.lifecycleMetadataCache.get(clazz);
 				if (metadata == null) {
 					metadata = buildLifecycleMetadata(clazz);
+					//放入缓存中
 					this.lifecycleMetadataCache.put(clazz, metadata);
 				}
 				return metadata;
@@ -229,6 +232,8 @@ public class InitDestroyAnnotationBeanPostProcessor
 			final List<LifecycleElement> currInitMethods = new ArrayList<>();
 			final List<LifecycleElement> currDestroyMethods = new ArrayList<>();
 
+			//循环遍历当前类的所有方法，看是否被@PostConstruct 和 @PreDestroy 修饰
+			// AccessibleObject.isAnnotationPresent();AccessibleObject 是 Method类的父类，判断当前方法是被某注解标记
 			ReflectionUtils.doWithLocalMethods(targetClass, method -> {
 				if (this.initAnnotationType != null && method.isAnnotationPresent(this.initAnnotationType)) {
 					LifecycleElement element = new LifecycleElement(method);
@@ -244,7 +249,7 @@ public class InitDestroyAnnotationBeanPostProcessor
 					}
 				}
 			});
-
+			//这里很奇怪，为什么把initMethods 当成一个参数放入集合中，而destroyMethods 全部放入集合中呢？
 			initMethods.addAll(0, currInitMethods);
 			destroyMethods.addAll(currDestroyMethods);
 			targetClass = targetClass.getSuperclass();

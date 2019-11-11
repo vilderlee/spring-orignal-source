@@ -309,6 +309,7 @@ public class CommonAnnotationBeanPostProcessor extends InitDestroyAnnotationBean
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
 		super.postProcessMergedBeanDefinition(beanDefinition, beanType, beanName);
 		InjectionMetadata metadata = findResourceMetadata(beanName, beanType, null);
+		//将其配置到BeanDefinition的externallyManagedConfigMembers中
 		metadata.checkConfigMembers(beanDefinition);
 	}
 
@@ -378,7 +379,7 @@ public class CommonAnnotationBeanPostProcessor extends InitDestroyAnnotationBean
 
 		do {
 			final List<InjectionMetadata.InjectedElement> currElements = new ArrayList<>();
-
+			//判断每一个Field是否由@Resource 等（@WebServiceRef）注释的
 			ReflectionUtils.doWithLocalFields(targetClass, field -> {
 				if (webServiceRefClass != null && field.isAnnotationPresent(webServiceRefClass)) {
 					if (Modifier.isStatic(field.getModifiers())) {
