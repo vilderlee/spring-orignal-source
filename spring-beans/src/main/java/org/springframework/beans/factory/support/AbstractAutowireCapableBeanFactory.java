@@ -946,7 +946,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * it will be fully created to check the type of its exposed object.
 	 */
 	@Override
-	@Deprecated
 	@Nullable
 	protected Class<?> getTypeForFactoryBean(String beanName, RootBeanDefinition mbd) {
 		return getTypeForFactoryBean(beanName, mbd, true).resolve();
@@ -1433,6 +1432,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			for (BeanPostProcessor bp : getBeanPostProcessors()) {
 				if (bp instanceof InstantiationAwareBeanPostProcessor) {
 					InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
+					//AutowiredAnnotationBeanPostProcessor在这里回调postProcessProperties()；由此可以看出hasInstAwareBpps这个值必须为true,
+					//如果hasInstAwareBpps这个为true，那么continueWithPropertyPopulation必须为true；
+					// InstantiationAwareBeanPostProcessor的postProcessAfterInstantiation()必须为true
 					PropertyValues pvsToUse = ibp.postProcessProperties(pvs, bw.getWrappedInstance(), beanName);
 					if (pvsToUse == null) {
 						if (filteredPds == null) {
@@ -1794,6 +1796,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}, getAccessControlContext());
 		}
 		else {
+			//调用Aware接口，顺序为BeanNameAware、BeanClassLoaderAware、BeanFactoryAware
 			invokeAwareMethods(beanName, bean);
 		}
 
@@ -1803,6 +1806,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		try {
+			//初始化接口InitializingBean#afterPropertiesSet() 和 init()方法调用；@PostConstruct
+			// 标记的方法会在applyBeanPostProcessorsBeforeInitialization中调用，间接说明了，先是调用@PostConstruct方法，在调用afterPropertiesSet
 			invokeInitMethods(beanName, wrappedBean, mbd);
 		}
 		catch (Throwable ex) {

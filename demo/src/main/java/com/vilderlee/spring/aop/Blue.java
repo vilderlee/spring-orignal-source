@@ -13,9 +13,8 @@ import org.springframework.stereotype.Component;
  * </pre>
  */
 @Component
-public class BlueImpl implements Color {
+public class Blue {
 
-	@Override
 	public void colorPrint() {
 		System.out.println("This is Blue!");
 	}

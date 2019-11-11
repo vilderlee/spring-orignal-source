@@ -14,7 +14,7 @@
         该方法是最先执行的方法，它在目标对象实例化之前调用，该方法的返回值类型是Object，我们可以返回任何类型的值。由于这个时候目标对象还未实例化，所以这个返回值可以用来代替原本该生成的目标对象的实例(比如代理对象)
         --------------------------------------------------------
         boolean postProcessAfterInstantiation(Class<?> beanClass, String beanName);
-        该方法在对象实例化之后，但是在属性值还没有设置之前执行，如果返回true则属性值应该被设置，返回false则属性值被跳过
+        该方法在对象实例化之后，但是在属性值还没有设置之前执行，如果返回true则属性值应该被设置，返回false则属性值被跳过,此方法直接影响下一个postProcessProperties方法是否被调用
         
         PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName)
         PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName)

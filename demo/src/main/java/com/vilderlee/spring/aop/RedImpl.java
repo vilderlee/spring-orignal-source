@@ -1,5 +1,6 @@
 package com.vilderlee.spring.aop;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,8 +16,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedImpl implements Color {
 
+	@Autowired
+	private Blue blue;
+
 	@Override
 	public void colorPrint() {
 		System.out.println("This is Red");
+		blue.colorPrint();
 	}
 }

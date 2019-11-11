@@ -42,10 +42,10 @@ public class AopConfig {
 	 *
 	 *
 	 */
-	@Pointcut(value = "execution（* com.vilderlee.spring.aop..Impl*.*(..)）")
+	@Pointcut(value = "execution(* com.vilderlee.spring.aop..*Impl.*(..))")
 	public void pointCut(){}
 
-	@Around(value = "pointCut")
+	@Around(value = "pointCut()")
 	public void around(ProceedingJoinPoint joinPoint) throws Throwable {
 		System.out.printf("AopConfig Interceptor Method: %s, before invoke this method %s \r\n",
 				joinPoint.getSignature().getName(), joinPoint.getSignature().getName());
