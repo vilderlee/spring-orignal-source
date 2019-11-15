@@ -202,6 +202,12 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		this.applyCommonInterceptorsFirst = applyCommonInterceptorsFirst;
 	}
 
+	/**
+	 * BeanFactoryAware方法的实现，会在初始化的时候调用.
+	 *
+	 * @param beanFactory owning BeanFactory (never {@code null}).
+	 * The bean can immediately call methods on the factory.
+	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
@@ -248,6 +254,9 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 			if (this.advisedBeans.containsKey(cacheKey)) {
 				return null;
 			}
+			//isInfrastructureClass 这个方法不仅会判断是否是基础类，其子类AnnotationAwareAspectJAutoProxyCreator子类实现
+			// 还会判断该类是否是@Aspect注解标注的类
+			//标注@Aspect的类，会放入advisedBeans 这个map中标记。
 			if (isInfrastructureClass(beanClass) || shouldSkip(beanClass, beanName)) {
 				this.advisedBeans.put(cacheKey, Boolean.FALSE);
 				return null;

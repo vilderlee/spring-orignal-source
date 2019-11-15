@@ -53,4 +53,8 @@ public class AopConfig {
 		System.out.printf("AopConfig Interceptor Method: %s, after invoke this method %s \r\n",
 				joinPoint.getSignature().getName(), joinPoint.getSignature().getName());
 	}
+
+	public void hello(){
+		System.out.println("123123123123123");
+	}
 }
